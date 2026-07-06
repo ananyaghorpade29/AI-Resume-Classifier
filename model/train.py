@@ -41,3 +41,28 @@ print(x.shape)
 print("\nTarget shape:")
 print(y.shape)
 
+x_train,x_test,y_train,y_test= train_test_split(x,y,test_size=0.2, random_state=42)
+print("\nTraining sample", x_train.shape[0])
+print("\nTesting sample", x_test.shape[0])
+
+model = LogisticRegression(max_iter=1000)   #later Naive-Bayes Linear-SVM Random Fores
+print("\nTraining the model...")
+model.fit(x_train, y_train)
+print("Training complete.")
+
+print("\nEvaluating the model...")
+y_pred = model.predict(x_test)
+print("Evaluation complete.")
+
+print("Accuracy:")
+accuracy = accuracy_score(y_test,y_pred)
+print(f"\nModel Accuracy:{accuracy *100:.2f}%")
+
+print("Classification Report:")
+print(classification_report(y_test,y_pred))
+
+MODEL_DIR= os.path.join(BASE_DIR,"saved_model")
+os.makedirs(MODEL_DIR, exist_ok=True)
+joblib.dump(model, os.path.join(MODEL_DIR,"model.pkl"))
+joblib.dump(vectorizer,os.path.join(MODEL_DIR,"vectorizer.pkl"))
+print(f"\nModel saved successfully!")
