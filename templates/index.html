@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UFT-8">
+    <meta name="viewport"
+    content="width=device-width,initial-scale=1.0">
+    <title> AI Resume Classifier </title>
+    <link rel = "stylesheet"
+    href="{{url_for('static',filename='style.css')}}">
+</head>
+<body>
+    <div class="container">
+        <h1>AI Resume Classifer</h1>
+        <P>
+            upload your resume to predict its job category.
+        </P>
+        #for FORM Whatever is inside the form gets sent to the server.
+        <form 
+        action = "/predict"
+        method="POST"
+        enctype = "multipart/form-data">
+        # ACTION When the button is clicked, send the form to http://127.0.0.1:5000/predict
+        #There are two common request types:GET-Give me information. POST-I'm sending data
+        #multipart/form-data: w/o it file cannot be uploaded
+        <input 
+        type="file"
+        name="resume"
+        accept=".pdf,.docx"
+        required>
+        <br><br>
+        <button type="submit">
+            Predict Category
+        </button>
+        </form>
+    </div>
+    
+</body>
+</html>
