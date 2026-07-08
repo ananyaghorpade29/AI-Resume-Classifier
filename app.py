@@ -25,7 +25,28 @@ def home():
 
 @app.route("/predict",methods=["POST"])
 def predict():
-    return "Predict route is working!"
+    if "resume" not in request.files:
+        return "No file uploaded."
+    file = request.files["resume"]
+    
+    if file.filename == "":
+        return "No file selected."
+    
+    file_path = os.path.join(
+        app.config["UPLOAD_FOLDER"],
+        file.filename
+    )
+    file.save(file_path)
+    raw_text =  extract_text(file_path)
+    cleaned_text = clean_text(raw_text)
+    text_vector = vectorizer.transform([cleaned_text])
+    prediction = model.predict(text_vector)[0]
+    os.remove(file_path)
+
+    return render_template(
+        "result.html",
+        prediction=prediction
+    )
 
 
 if __name__ == "__main__":
